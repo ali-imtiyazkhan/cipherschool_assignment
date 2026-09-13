@@ -4,12 +4,19 @@ This guide provides step-by-step instructions to deploy the **LLD Practice Platf
 
 ---
 
+## 🌐 Live URLs
+
+- **Frontend**: [https://cipherschool-assignment-web.vercel.app/](https://cipherschool-assignment-web.vercel.app/)
+- **Backend**: [https://lld-arena-backend.onrender.com](https://lld-arena-backend.onrender.com)
+
+---
+
 ## Architecture Overview
 
 | Service | Platform | Environment / Runtime | Key Environment Variables |
 | :--- | :--- | :--- | :--- |
-| **Backend** (`apps/backend`) | **Render** | Docker (`oven/bun:1`) | `PORT=3001`<br>`DATABASE_URL` (optional/Postgres)<br>`OPENAI_API_KEY` or `GEMINI_API_KEY`<br>`CORS_ORIGIN=*` |
-| **Frontend** (`apps/web`) | **Vercel** | Next.js 16 + Bun / Node.js | `NEXT_PUBLIC_API_URL` (points to Render backend URL) |
+| **Backend** (`apps/backend`) | **Render** | Docker (`oven/bun:1`) | `PORT=3001`<br>`DATABASE_URL` (optional/Postgres)<br>`OPENAI_API_KEY` or `GEMINI_API_KEY`<br>`CORS_ORIGIN=https://cipherschool-assignment-web.vercel.app` |
+| **Frontend** (`apps/web`) | **Vercel** | Next.js 16 + Bun / Node.js | `NEXT_PUBLIC_API_URL=https://lld-arena-backend.onrender.com` |
 
 ---
 

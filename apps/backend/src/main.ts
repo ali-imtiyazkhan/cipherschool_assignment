@@ -4,11 +4,33 @@ import routes from "./api/routes";
 
 const app = express();
 
+const allowedOrigins = [
+  "https://cipherschool-assignment-web.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001",
+];
+
+if (process.env.CORS_ORIGIN && process.env.CORS_ORIGIN !== "*") {
+  allowedOrigins.push(process.env.CORS_ORIGIN);
+}
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/+$/, "");
+      if (
+        process.env.CORS_ORIGIN === "*" ||
+        allowedOrigins.some((o) => o.replace(/\/+$/, "") === cleanOrigin) ||
+        cleanOrigin.endsWith(".vercel.app")
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 app.use(express.json());

@@ -1,6 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+let prisma: any;
+try {
+  const db = await import("@repo/db");
+  prisma = db.prisma || db.default;
+} catch {
+  const { PrismaClient } = await import("@prisma/client");
+  prisma = new PrismaClient();
+}
 
 const problems = [
   {

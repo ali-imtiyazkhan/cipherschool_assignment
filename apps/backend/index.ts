@@ -68,6 +68,6 @@ app.post("/payment", authMiddleware, (req, res) => {
     return res.status(200).json({ message: "Payment successful", amount });
 });
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+app.listen(3001, () => {
+    console.log("Server is running on port 3001");
 });

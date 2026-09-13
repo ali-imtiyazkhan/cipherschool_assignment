@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
+const defaultBackend =
+  process.env.NODE_ENV === "production"
+    ? "https://lld-arena-backend.onrender.com"
+    : "http://localhost:3001";
+
 const rawBackendUrl =
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.BACKEND_URL ||
-  "http://localhost:3001";
+  defaultBackend;
 
 const cleanBackendUrl = rawBackendUrl.replace(/\/+$/, "");
 const targetApiUrl = cleanBackendUrl.endsWith("/api")

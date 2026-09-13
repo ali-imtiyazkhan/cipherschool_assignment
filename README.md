@@ -1,5 +1,7 @@
 # LLD Arena — Low-Level Design Practice & Evaluation Platform
 
+![LLD Arena Platform Preview](./image.png)
+
 > **2-Day Engineering Assignment Deliverable**  
 > A deliberate practice platform that helps learners practice Object-Oriented and Low-Level Design (LLD), submit solutions, receive explainable rubric-based feedback, and iteratively refine their architectural thinking.
 

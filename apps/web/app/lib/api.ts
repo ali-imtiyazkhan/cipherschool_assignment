@@ -1,6 +1,9 @@
 // API helper for LLD Practice Platform
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+const RAW_BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+const BACKEND_URL = RAW_BACKEND_URL.replace(/\/+$/, "").endsWith("/api")
+  ? RAW_BACKEND_URL.replace(/\/+$/, "")
+  : `${RAW_BACKEND_URL.replace(/\/+$/, "")}/api`;
 
 export interface Problem {
   id: string;

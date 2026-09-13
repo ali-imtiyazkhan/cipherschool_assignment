@@ -23,6 +23,7 @@
   "dependencies": {
     "@prisma/client": "^5.10.0",
     "@repo/db": "*",
+    "@types/jsonwebtoken": "^9.0.10",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",

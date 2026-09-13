@@ -1,159 +1,133 @@
-# Turborepo starter
+# LLD Arena — Low-Level Design Practice & Evaluation Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+> **2-Day Engineering Assignment Deliverable**  
+> A deliberate practice platform that helps learners practice Object-Oriented and Low-Level Design (LLD), submit solutions, receive explainable rubric-based feedback, and iteratively refine their architectural thinking.
 
-## Using this example
+---
 
-Run the following command:
+## 🌟 Key Features
 
-```sh
-npx create-turbo@latest
+- **Problem Catalog**: Curated real-world LLD problems (Parking Lot, Elevator Control System, Vending Machine, Library Management, Online Food Ordering) with explicit functional requirements and architectural constraints.
+- **Structured Practice Studio**: Dedicated markdown and code workspace pre-configured with design doc scaffolding (Assumptions, Class Diagram/Interfaces, Class Responsibilities, Design Patterns, Edge Cases & Concurrency).
+- **Dual-Tier Hybrid Evaluation Engine**:
+  - **Deterministic Evaluator**: Fast, reproducible rule-based analysis of structural completeness, class hierarchies, SOLID principles, and edge case mentions.
+  - **AI Rubric Evaluator**: LLM-driven architectural nuance analysis across 5 dimensions, requiring cited **Evidence**, identified **Concerns**, and actionable **Suggestions**.
+  - **Resilient Fallback**: Operates out-of-the-box in offline/mock mode if no OpenAI API key is configured.
+- **Live Evaluation Scorecard**: Real-time evaluation status polling (`PENDING` ➔ `EVALUATING` ➔ `COMPLETED`), overall score out of 5, confidence rating, and side-by-side comparison between AI reasoning and deterministic checks.
+- **Attempt History & Progression**: Tracks multiple iterations per problem so learners can review feedback, iterate on their design, and observe their score improve across attempts.
+
+---
+
+## 📑 Assignment Deliverables Index
+
+| Deliverable | Description | File Link |
+| :--- | :--- | :--- |
+| **Research Note** | 1–2 pages analyzing the learner problem in LLD, existing tools (LeetCode, Educative, etc.), key gaps, and product direction. | [RESEARCH_NOTE.md](file:///d:/projects/cipherSchool_assignment/RESEARCH_NOTE.md) |
+| **Design Note** | Concise architecture note: MVP scope, class/domain model, hybrid evaluation strategy, Change Tests A & B, and scaling trade-offs. | [DESIGN_NOTE.md](file:///d:/projects/cipherSchool_assignment/DESIGN_NOTE.md) |
+| **AI Usage Note** | 3–5 meaningful AI-assisted decisions: what AI suggested, what was accepted or rejected, and why. | [AI_USAGE.md](file:///d:/projects/cipherSchool_assignment/AI_USAGE.md) |
+| **Working Prototype** | Full-stack monorepo: Next.js frontend (`apps/web`) + Express backend (`apps/backend`) with domain model and evaluators. | [apps/web](file:///d:/projects/cipherSchool_assignment/apps/web) & [apps/backend](file:///d:/projects/cipherSchool_assignment/apps/backend) |
+| **Automated Tests** | Comprehensive test suite covering evaluators, orchestrator failure handling, and API endpoints. | [apps/backend/tests](file:///d:/projects/cipherSchool_assignment/apps/backend/tests) |
+
+---
+
+## 🏗️ Architecture & Domain Design
+
+```
+                     ┌────────────────────────────────┐
+                     │    Next.js Modern Frontend     │
+                     │          (apps/web)            │
+                     └───────────────┬────────────────┘
+                                     │ HTTP REST
+                                     ▼
+                     ┌────────────────────────────────┐
+                     │    Express API Gateway         │
+                     │        (apps/backend)          │
+                     └───────────────┬────────────────┘
+                                     │
+                 ┌───────────────────┴───────────────────┐
+                 │                                       │
+                 ▼                                       ▼
+    ┌───────────────────────────┐           ┌──────────────────────────┐
+    │   EvaluationOrchestrator  │           │   Domain Services &      │
+    └────────────┬──────────────┘           │   Repositories           │
+                 │                          └────────────┬─────────────┘
+        ┌────────┴────────┐                              │
+        ▼                 ▼                              ▼
+ ┌───────────────┐ ┌─────────────┐             ┌───────────────────┐
+ │ Deterministic │ │ AI Rubric   │             │ In-Memory /       │
+ │ Evaluator     │ │ Evaluator   │             │ Prisma PostgreSQL │
+ └───────────────┘ └─────────────┘             └───────────────────┘
 ```
 
-## What's inside?
+### Core Domain Entities
 
-This Turborepo includes the following packages/apps:
+1. **`Problem`**: Owns title, requirements, constraints, and difficulty (`EASY`, `MEDIUM`, `HARD`).
+2. **`User`**: Learner identity.
+3. **`Attempt`**: Represents a practice session for a problem. Transitions from `IN_PROGRESS` to `SUBMITTED`.
+4. **`Submission`**: Immutable snapshot of the learner's design doc. Owns its evaluation lifecycle (`PENDING` ➔ `EVALUATING` ➔ `COMPLETED` / `FAILED`).
+5. **`Evaluation`**: Structured, evidence-based feedback record. One submission can have multiple evaluations (`DETERMINISTIC` and `AI`).
 
-### Apps and Packages
+---
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `@next/eslint-plugin-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 🚀 Getting Started & How to Run
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Prerequisites
+- [Bun](https://bun.com) (v1.3+ recommended) or Node.js (v20+)
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+### 1. Clone & Install Dependencies
+```bash
+bun install
 ```
 
-Without global `turbo`, use your package manager:
+### 2. Environment Configuration (Optional)
+The project works out of the box with zero configuration! If you want live OpenAI evaluations:
+In `apps/backend/.env`:
+```env
+PORT=3001
+OPENAI_API_KEY=sk-your-openai-key-here
+# DATABASE_URL=postgresql://user:password@localhost:5432/lld_practice
+```
+*(If no OpenAI key or PostgreSQL database is provided, the platform automatically uses the built-in deterministic heuristic fallback and in-memory store pre-seeded with all 5 problems).*
 
-```sh
-cd my-turborepo
-npx turbo build
-bun exec turbo build
-bun exec turbo build
+### 3. Run Both Frontend and Backend
+
+In separate terminal tabs:
+
+**Terminal 1 (Backend API):**
+```bash
+cd apps/backend
+bun run start
+# Server starts on http://localhost:3001
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo build --filter=docs
+**Terminal 2 (Frontend Web App):**
+```bash
+cd apps/web
+bun run dev
+# Web app starts on http://localhost:3000
 ```
 
-Without global `turbo`:
+Open your browser at **`http://localhost:3000`** to experience the full practice loop.
 
-```sh
-npx turbo build --filter=docs
-bun exec turbo build --filter=docs
-bun exec turbo build --filter=docs
+---
+
+## 🧪 Running Automated Tests
+
+Run the full test suite with Bun:
+```bash
+bun test apps/backend/tests
 ```
 
-### Develop
+This runs 11 automated unit and integration tests across 3 suites:
+1. `apps/backend/tests/evaluator.test.ts`: Deterministic rubric scoring and submission status state machine.
+2. `apps/backend/tests/orchestrator.test.ts`: Evaluation orchestrator workflow and upstream failure resilience.
+3. `apps/backend/tests/api.test.ts`: Express API endpoints, validation logic, and error handling.
 
-To develop all apps and packages, run the following command:
+---
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## 💡 Architectural Change Tests
 
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-bun exec turbo dev
-bun exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-bun exec turbo dev --filter=web
-bun exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-bun exec turbo login
-bun exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-bun exec turbo link
-bun exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- **Change Test A (Text to Class Diagrams)**:
+  `Submission.content` acts as a generic payload container. Supporting class diagrams requires implementing a new `DiagramEvaluator` that satisfies the existing `Evaluator` interface. Zero domain schema changes required.
+- **Change Test B (Pluggable Evaluators & Human Mentorship)**:
+  Submissions already support one-to-many `Evaluation` records. Adding a rule-based evaluator or human review queue requires registering another evaluator in `EvaluationOrchestrator` without modifying existing learner flows.

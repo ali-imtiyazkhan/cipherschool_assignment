@@ -22,6 +22,12 @@ router.get("/problems/:id", async (req: Request, res: Response) => {
   res.json(problem);
 });
 
+router.get("/problems/:id/attempts", async (req: Request, res: Response) => {
+  const problemId = getParam(req, "id");
+  const attempts = await attemptRepository.findAllByProblem(problemId);
+  res.json(attempts);
+});
+
 router.post("/problems", async (req: Request, res: Response) => {
   const { title, description, requirements, constraints, difficulty } = req.body;
   if (!title || !description || !requirements || !constraints) {

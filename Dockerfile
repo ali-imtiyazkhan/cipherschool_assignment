@@ -2,6 +2,11 @@ FROM oven/bun:1.1 AS runner
 
 WORKDIR /app
 
+# Install Node.js and npm because Prisma may invoke npm
+RUN apt-get update \
+    && apt-get install -y nodejs npm \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV NODE_ENV=production
 ENV PORT=3001
 

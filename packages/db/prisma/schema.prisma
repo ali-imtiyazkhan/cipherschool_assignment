@@ -7,13 +7,12 @@ datasource db {
 }
 
 
-// Problem — the LLD challenge itself
 model Problem {
   id           String   @id @default(cuid())
   title        String
   description  String
-  requirements String[] // e.g. ["Support multiple vehicle types", "Track available spots"]
-  constraints  String[] // e.g. ["No external libraries", "Single-process only"]
+  requirements String[] 
+  constraints  String[] 
   difficulty   Difficulty @default(MEDIUM)
   createdAt    DateTime @default(now())
 
@@ -26,7 +25,6 @@ enum Difficulty {
   HARD
 }
 
-// User — kept minimal, no real auth for the MVP
 model User {
   id        String   @id @default(cuid())
   name      String
@@ -35,7 +33,6 @@ model User {
   attempts  Attempt[]
 }
 
-// Attempt — one learner's try at one problem
 model Attempt {
   id        String        @id @default(cuid())
   problem   Problem       @relation(fields: [problemId], references: [id])
@@ -61,10 +58,10 @@ model Submission {
   id          String           @id @default(cuid())
   attempt     Attempt          @relation(fields: [attemptId], references: [id])
   attemptId   String
-  content     String           // markdown design doc
+  content     String           
   status      SubmissionStatus @default(PENDING)
   submittedAt DateTime         @default(now())
-  failureReason String?        // populated if status = FAILED
+  failureReason String? 
 
   evaluations Evaluation[]
 

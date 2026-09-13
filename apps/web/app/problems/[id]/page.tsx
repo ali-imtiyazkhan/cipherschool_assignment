@@ -139,7 +139,7 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
         <Navbar />
-        <div style={{ textAlign: "center", padding: "80px 20px", color: "var(--text-muted)" }}>
+        <div style={{ textAlign: "center", paddingTop: "10rem", color: "var(--text-muted)" }}>
           Loading problem workspace...
         </div>
       </div>
@@ -160,19 +160,34 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Navbar />
 
-      <main style={{ flex: 1, display: "flex", flexDirection: "column", maxWidth: 1440, width: "100%", margin: "0 auto", padding: "20px 24px 32px" }}>
-        {/* Top Breadcrumb & Actions */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--text-muted)", fontSize: "0.88rem", fontWeight: 500 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
+      <main className="container" style={{ flex: 1, display: "flex", flexDirection: "column", paddingTop: "6rem", paddingBottom: "3rem" }}>
+        {/* Top Bar */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "1.25rem",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}>
+          <Link href="/" style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            color: "var(--text-muted)",
+            fontSize: "0.875rem",
+            fontWeight: 500,
+            transition: "color 0.15s",
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
             </svg>
             Back to Problems
           </Link>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "0.85rem", color: "var(--text-muted)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.82rem", color: "var(--text-muted)" }}>
               <span>Learner:</span>
               <input
                 type="text"
@@ -181,11 +196,13 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
                 style={{
                   background: "var(--bg-card)",
                   border: "1px solid var(--border-subtle)",
-                  color: "var(--text-main)",
-                  padding: "4px 8px",
-                  borderRadius: 6,
-                  fontSize: "0.85rem",
+                  color: "var(--text)",
+                  padding: "0.3rem 0.6rem",
+                  borderRadius: "var(--radius-md)",
+                  fontSize: "0.82rem",
                   width: 130,
+                  fontFamily: "inherit",
+                  outline: "none",
                 }}
               />
             </div>
@@ -198,14 +215,14 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
               {isSubmitting ? (
                 <>
                   <span style={{ display: "inline-block", width: 14, height: 14, border: "2px solid #fff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }}></span>
-                  Submitting & Evaluating...
+                  Evaluating...
                 </>
               ) : (
                 <>
                   Submit for Rubric Evaluation
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>
                 </>
               )}
@@ -218,38 +235,45 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
             background: "var(--danger-bg)",
             border: "1px solid var(--danger-border)",
             color: "var(--danger)",
-            padding: "12px 16px",
-            borderRadius: 8,
-            marginBottom: 16,
-            fontSize: "0.9rem",
+            padding: "0.75rem 1rem",
+            borderRadius: "var(--radius-md)",
+            marginBottom: "1rem",
+            fontSize: "0.875rem",
           }}>
             {error}
           </div>
         )}
 
-        {/* Studio Workspace Layout */}
-        <div style={{ display: "grid", gridTemplateColumns: "400px 1fr", gap: 24, flex: 1, minHeight: 650 }}>
-          {/* Left Column: Requirements & Guide */}
-          <div className="glass-panel" style={{ padding: 24, overflowY: "auto", display: "flex", flexDirection: "column", gap: 20 }}>
+        {/* Two-column workspace */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "380px 1fr",
+          gap: "1px",
+          background: "var(--border)",
+          border: "1px solid var(--border)",
+          flex: 1,
+          minHeight: 600,
+        }}>
+          {/* Left: Requirements Panel */}
+          <div style={{ background: "var(--bg)", padding: "1.75rem", overflowY: "auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
                 <span className={badgeClass}>{problem.difficulty}</span>
-                <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>LLD Specification</span>
+                <span className="section-label">LLD Specification</span>
               </div>
-              <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text-main)", marginBottom: 10 }}>
+              <h1 className="font-display" style={{ fontSize: "1.5rem", letterSpacing: "-0.02em", color: "var(--text)", marginBottom: "0.625rem" }}>
                 {problem.title}
               </h1>
-              <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+              <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", lineHeight: 1.55 }}>
                 {problem.description}
               </p>
             </div>
 
             <div>
-              <h2 style={{ fontSize: "0.9rem", fontWeight: 700, color: "#e2e8f0", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              <h2 className="accent-left" style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "0.75rem" }}>
                 Functional Requirements
               </h2>
-              <ul style={{ paddingLeft: 18, fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: 6 }}>
+              <ul style={{ paddingLeft: "1.1rem", fontSize: "0.82rem", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "0.35rem", listStyle: "disc" }}>
                 {problem.requirements.map((req, i) => (
                   <li key={i}>{req}</li>
                 ))}
@@ -257,26 +281,31 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
             </div>
 
             <div>
-              <h2 style={{ fontSize: "0.9rem", fontWeight: 700, color: "#e2e8f0", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.5"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <h2 className="accent-left" style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "0.75rem" }}>
                 Architectural Constraints
               </h2>
-              <ul style={{ paddingLeft: 18, fontSize: "0.85rem", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: 6 }}>
+              <ul style={{ paddingLeft: "1.1rem", fontSize: "0.82rem", color: "var(--text-muted)", display: "flex", flexDirection: "column", gap: "0.35rem", listStyle: "disc" }}>
                 {problem.constraints.map((c, i) => (
                   <li key={i}>{c}</li>
                 ))}
               </ul>
             </div>
 
-            {/* Rubric Evaluation Criteria Tip */}
-            <div style={{ background: "rgba(99, 102, 241, 0.08)", border: "1px solid rgba(99, 102, 241, 0.2)", borderRadius: 10, padding: 14 }}>
-              <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#a5b4fc", marginBottom: 6 }}>
-                🎯 Rubric Evaluation Dimensions
+            {/* Rubric dimensions */}
+            <div style={{
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              padding: "1rem",
+            }}>
+              <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--color-accent-400)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.35rem" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Rubric Evaluation Dimensions
               </div>
-              <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.4 }}>
-                Your solution will be rigorously scored (1–5) on:
-              </p>
-              <ol style={{ paddingLeft: 16, fontSize: "0.78rem", color: "var(--text-muted)", marginTop: 6, lineHeight: 1.5 }}>
+              <ol style={{ paddingLeft: "1.1rem", fontSize: "0.78rem", color: "var(--text-muted)", lineHeight: 1.6, listStyle: "decimal" }}>
                 <li>Requirement Understanding & Scope</li>
                 <li>Class & Interface Responsibilities (SRP)</li>
                 <li>Coupling & Cohesion</li>
@@ -286,52 +315,41 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
             </div>
           </div>
 
-          {/* Right Column: Solution Editor */}
-          <div className="glass-panel" style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
-            {/* Editor Toolbar */}
+          {/* Right: Editor */}
+          <div style={{ background: "var(--bg)", display: "flex", flexDirection: "column" }}>
+            {/* Editor toolbar */}
             <div style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "12px 18px",
-              borderBottom: "1px solid var(--border-subtle)",
-              background: "rgba(10, 14, 23, 0.5)",
+              padding: "0.75rem 1.25rem",
+              borderBottom: "1px solid var(--border)",
               flexWrap: "wrap",
-              gap: 8,
+              gap: "0.5rem",
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--text-muted)" }}>Design Doc Editor</span>
-                <span style={{ fontSize: "0.75rem", background: "var(--bg-subtle)", padding: "2px 6px", borderRadius: 4, color: "var(--text-faint)" }}>Markdown + Code</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                {/* Dots */}
+                <span style={{ width: "0.5rem", height: "0.5rem", borderRadius: "50%", outline: "1px solid var(--color-base-600)" }}></span>
+                <span style={{ width: "0.5rem", height: "0.5rem", borderRadius: "50%", outline: "1px solid var(--color-base-700)" }}></span>
+                <span style={{ width: "0.5rem", height: "0.5rem", borderRadius: "50%", outline: "1px solid var(--color-base-800)" }}></span>
+                <span style={{ fontSize: "0.78rem", fontWeight: 500, color: "var(--text-muted)", marginLeft: "0.5rem" }}>Design Doc Editor</span>
+                <span className="tag" style={{ fontSize: "0.65rem", padding: "0.15rem 0.5rem" }}>Markdown + Code</span>
               </div>
 
-              <div style={{ display: "flex", gap: 8 }}>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
                 <button
                   type="button"
                   onClick={() => setContent(STARTER_TEMPLATE)}
-                  style={{
-                    background: "transparent",
-                    border: "1px solid var(--border-subtle)",
-                    color: "var(--text-muted)",
-                    padding: "4px 10px",
-                    borderRadius: 6,
-                    fontSize: "0.78rem",
-                    cursor: "pointer",
-                  }}
+                  className="btn btn-ghost btn-sm"
+                  style={{ fontSize: "0.72rem" }}
                 >
-                  Reload Starter Template
+                  Reload Template
                 </button>
                 <button
                   type="button"
                   onClick={() => setContent("")}
-                  style={{
-                    background: "transparent",
-                    border: "1px solid var(--border-subtle)",
-                    color: "var(--text-muted)",
-                    padding: "4px 10px",
-                    borderRadius: 6,
-                    fontSize: "0.78rem",
-                    cursor: "pointer",
-                  }}
+                  className="btn btn-ghost btn-sm"
+                  style={{ fontSize: "0.72rem" }}
                 >
                   Clear
                 </button>
@@ -339,21 +357,21 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
             </div>
 
             {/* Textarea */}
-            <div style={{ flex: 1, position: "relative", minHeight: 450 }}>
+            <div style={{ flex: 1, position: "relative", minHeight: 400 }}>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Draft your Low-Level Design solution here (Classes, Responsibilities, Interfaces, Relationships, Edge cases)..."
+                placeholder="Draft your Low-Level Design solution here..."
                 style={{
                   width: "100%",
                   height: "100%",
                   background: "transparent",
-                  color: "#f8fafc",
+                  color: "var(--text)",
                   border: "none",
-                  padding: "18px 20px",
-                  fontFamily: 'Consolas, Monaco, "Courier New", monospace',
-                  fontSize: "0.92rem",
-                  lineHeight: 1.6,
+                  padding: "1.25rem",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.875rem",
+                  lineHeight: 1.65,
                   resize: "none",
                   outline: "none",
                   boxSizing: "border-box",
@@ -361,24 +379,23 @@ export default function ProblemPracticePage({ params }: { params: Promise<{ id: 
               />
             </div>
 
-            {/* Editor Footer Info */}
+            {/* Footer stats */}
             <div style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "10px 18px",
-              borderTop: "1px solid var(--border-subtle)",
-              background: "rgba(10, 14, 23, 0.4)",
-              fontSize: "0.78rem",
-              color: "var(--text-faint)",
+              padding: "0.6rem 1.25rem",
+              borderTop: "1px solid var(--border)",
+              fontSize: "0.72rem",
+              color: "var(--text-dim)",
             }}>
               <div>
                 <span>{wordCount} words</span>
-                <span style={{ margin: "0 8px" }}>•</span>
+                <span style={{ margin: "0 0.5rem" }}>·</span>
                 <span>{charCount} characters</span>
               </div>
               <div>
-                Status: <span style={{ color: "#10b981" }}>Draft autosaved locally</span>
+                Status: <span style={{ color: "var(--color-green-500)" }}>Draft autosaved</span>
               </div>
             </div>
           </div>

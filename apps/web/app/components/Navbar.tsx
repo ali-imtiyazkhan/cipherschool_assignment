@@ -1,60 +1,65 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="glass-nav" style={{ position: "sticky", top: 0, zIndex: 50, padding: "16px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{
-            width: 38,
-            height: 38,
-            borderRadius: 10,
-            background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 0 15px rgba(99, 102, 241, 0.4)",
-          }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="12 2 2 7 12 12 22 7 12 2" />
-              <polyline points="2 17 12 22 22 17" />
-              <polyline points="2 12 12 17 22 12" />
-            </svg>
-          </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: "1.15rem", letterSpacing: "-0.02em", background: "linear-gradient(to right, #ffffff, #cbd5e1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              LLD Arena
-            </div>
-            <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              Low-Level Design Gym
-            </div>
-          </div>
+    <header
+      className={`nav-wrapper${scrolled ? " scrolled" : ""}`}
+      id="nav-wrapper"
+    >
+      <div className="nav-inner">
+        {/* Logo */}
+        <Link href="/" className="nav-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+            <polyline points="2 17 12 22 22 17" />
+            <polyline points="2 12 12 17 22 12" />
+          </svg>
+          <span>LLD Arena</span>
         </Link>
 
-        <nav style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <Link href="/" style={{ color: "var(--text-main)", fontSize: "0.92rem", fontWeight: 500, transition: "color 0.2s" }}>
-            Problem Catalog
-          </Link>
+        {/* Center nav links */}
+        <nav className="nav-links">
+          <Link href="/">Problems</Link>
           <a
             href="https://github.com"
             target="_blank"
             rel="noreferrer"
             style={{
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
-              gap: 6,
-              fontSize: "0.85rem",
-              color: "var(--text-muted)",
-              padding: "6px 12px",
-              borderRadius: 8,
-              border: "1px solid var(--border-subtle)",
-              background: "var(--bg-subtle)",
+              gap: "0.35rem",
             }}
           >
-            <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#10b981", display: "inline-block" }}></span>
-            Evaluator Engine Active
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "var(--color-green-500)",
+                display: "inline-block",
+              }}
+            />
+            Engine Active
           </a>
         </nav>
+
+        {/* Right CTA */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <Link href="/" className="btn btn-ghost btn-sm">
+            Catalog
+          </Link>
+        </div>
       </div>
     </header>
   );

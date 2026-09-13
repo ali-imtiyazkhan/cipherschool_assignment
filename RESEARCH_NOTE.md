@@ -4,8 +4,6 @@
 **Author:** Candidate  
 **Date:** September 2026  
 
----
-
 ## 1. The Core Learner Problem in Low-Level Design
 
 Mastering Low-Level Design (Object-Oriented Design, Schema & Interface Modeling, Design Patterns) is widely recognized as one of the most ambiguous hurdles in software engineering education and interview preparation. 

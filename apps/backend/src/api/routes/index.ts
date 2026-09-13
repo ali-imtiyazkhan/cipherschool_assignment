@@ -69,7 +69,7 @@ router.post("/attempts/:id/submit", async (req: Request, res: Response) => {
     evaluationService,
     evaluationRepository,
     submissionRepository,
-    process.env.OPENAI_API_KEY
+    process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY
   ).evaluateSubmission(submission.id);
 
   res.status(201).json({ submissionId: submission.id, status: "EVALUATING" });

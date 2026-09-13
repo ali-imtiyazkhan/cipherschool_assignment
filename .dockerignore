@@ -5,3 +5,6 @@ node_modules
 apps/web
 exingtonthemes_buio
 *.log
+*.md
+.vercel
+.npmrc
